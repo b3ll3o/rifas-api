@@ -1,4 +1,4 @@
-import { Entidade } from "src/shared/entidade";
+import { Entidade } from "../../../shared/entidade";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

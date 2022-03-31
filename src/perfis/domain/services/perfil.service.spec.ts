@@ -4,7 +4,14 @@ import { Connection, getConnection } from "typeorm";
 import { Modulo } from "../entities/modulo.entity";
 import { Perfil } from "../entities/perfil.entity";
 import { Permissao } from "../entities/permissao.entity";
+import { PerfilJaCadastradoErro } from "../erros";
 import { PerfilService } from "./perfil.service";
+
+const NOME = 'nome';
+
+const perfilFactory = ({nome=NOME}): Perfil => new Perfil({
+  nome
+})
 
 describe('PerfilService', () => {
   let service: PerfilService;
@@ -32,4 +39,22 @@ describe('PerfilService', () => {
   afterEach(async () => {
     await connection.close();
   });
+
+  describe('cadastrar', () => {
+    it('deve retorna um perfil com id', async () => {
+      const perfil = await service.cadastrar(perfilFactory({}));
+      expect(perfil.id).not.toBeUndefined();
+      expect(perfil.id).not.toBeNull();
+    })
+
+    it('deve retorna um perfil com o mesmo nome passado', async () => {
+      const perfil = await service.cadastrar(perfilFactory({}));
+      expect(perfil.nome).toBe(NOME)
+    })
+
+    it('deve retornar um erro se o perfil já estiver cadastrado', async () => {
+      await service.cadastrar(perfilFactory({}));
+      await expect(service.cadastrar(perfilFactory({}))).rejects.toThrow(PerfilJaCadastradoErro);
+    })
+  })
 });
