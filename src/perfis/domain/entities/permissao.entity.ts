@@ -1,11 +1,8 @@
-import { Entidade } from "../../../shared/entidade";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Rastreamento } from "../../../shared/rastreamento";
 
 @Entity()
-export class Permissao extends Entidade<Permissao> {
-
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Permissao extends Rastreamento<Permissao> {
 
   @Column()
   nome: string;
