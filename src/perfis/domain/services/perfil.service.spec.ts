@@ -1,30 +1,33 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsuariosService } from "../../../usuarios/domain/services/usuarios.service";
-import { Connection, getConnection } from "typeorm";
-import { Modulo } from "../entities/modulo.entity";
-import { Perfil } from "../entities/perfil.entity";
-import { Permissao } from "../entities/permissao.entity";
-import { PerfilJaCadastradoErro } from "../erros";
-import { PerfilService } from "./perfil.service";
-import { SharedModule } from "../../../shared/shared.module";
-import { Usuario } from "../../../usuarios/domain/entities/usuario.entity";
+import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsuariosService } from '../../../usuarios/domain/services/usuarios.service';
+import { Connection, getConnection } from 'typeorm';
+import { Modulo } from '../entities/modulo.entity';
+import { Perfil } from '../entities/perfil.entity';
+import { Permissao } from '../entities/permissao.entity';
+import { PerfilJaCadastradoErro } from '../erros';
+import { PerfilService } from './perfil.service';
+import { SharedModule } from '../../../shared/shared.module';
+import { Usuario } from '../../../usuarios/domain/entities/usuario.entity';
 
 const NOME = 'nome';
 const SENHA = 'senha';
-const EMAIL = 'email@email.com'
+const EMAIL = 'email@email.com';
 
-const perfilFactory = ({nome=NOME}): Perfil => new Perfil({
-  nome
-})
+const perfilFactory = ({ nome = NOME }): Perfil =>
+  new Perfil({
+    nome,
+  });
 
-const usuarioFactory = ({email=EMAIL, senha=SENHA}): Usuario => new Usuario({
-  email, senha
-})
+const usuarioFactory = ({ email = EMAIL, senha = SENHA }): Usuario =>
+  new Usuario({
+    email,
+    senha,
+  });
 
 describe('PerfilService', () => {
   let service: PerfilService;
-  let usuarioService: UsuariosService
+  let usuarioService: UsuariosService;
   let connection: Connection;
 
   beforeEach(async () => {
@@ -39,7 +42,7 @@ describe('PerfilService', () => {
           dropSchema: true,
         }),
         TypeOrmModule.forFeature([Usuario, Perfil, Modulo, Permissao]),
-        SharedModule
+        SharedModule,
       ],
     }).compile();
 
@@ -54,22 +57,30 @@ describe('PerfilService', () => {
 
   describe('cadastrar', () => {
     it('deve retorna um perfil com id', async () => {
-      const usuario = await usuarioService.cadastraNovoUsuario(usuarioFactory({}));
+      const usuario = await usuarioService.cadastraNovoUsuario(
+        usuarioFactory({}),
+      );
       const perfil = await service.cadastrar(usuario.id, perfilFactory({}));
       expect(perfil.id).not.toBeUndefined();
       expect(perfil.id).not.toBeNull();
-    })
+    });
 
     it('deve retorna um perfil com o mesmo nome passado', async () => {
-      const usuario = await usuarioService.cadastraNovoUsuario(usuarioFactory({}));
+      const usuario = await usuarioService.cadastraNovoUsuario(
+        usuarioFactory({}),
+      );
       const perfil = await service.cadastrar(usuario.id, perfilFactory({}));
-      expect(perfil.nome).toBe(NOME)
-    })
+      expect(perfil.nome).toBe(NOME);
+    });
 
     it('deve retornar um erro se o perfil já estiver cadastrado', async () => {
-      const usuario = await usuarioService.cadastraNovoUsuario(usuarioFactory({}));
+      const usuario = await usuarioService.cadastraNovoUsuario(
+        usuarioFactory({}),
+      );
       await service.cadastrar(usuario.id, perfilFactory({}));
-      await expect(service.cadastrar(usuario.id, perfilFactory({}))).rejects.toThrow(PerfilJaCadastradoErro);
-    })
-  })
+      await expect(
+        service.cadastrar(usuario.id, perfilFactory({})),
+      ).rejects.toThrow(PerfilJaCadastradoErro);
+    });
+  });
 });

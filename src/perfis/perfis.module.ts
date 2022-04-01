@@ -10,6 +10,9 @@ import { PermissaoService } from './domain/services/permissao.service';
 
 @Module({
   providers: [PerfilService, ModuloService, PermissaoService],
-  imports: [TypeOrmModule.forFeature([Perfil, Modulo, Permissao]), SharedModule],
+  imports: [
+    TypeOrmModule.forFeature([Perfil, Modulo, Permissao]),
+    SharedModule,
+  ],
 })
 export class PerfisModule {}

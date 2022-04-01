@@ -1,1 +1,1 @@
-export * from './perfil-ja-cadastrado.erro'
+export * from './perfil-ja-cadastrado.erro';

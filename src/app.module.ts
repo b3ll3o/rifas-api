@@ -10,21 +10,29 @@ import { ValidadorPipe } from '../pipes/validador.pipe';
 import { SharedModule } from './shared/shared.module';
 
 @Module({
-  imports: [UsuariosModule, AuthModule, PerfisModule, TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: 'db.sqlite',
-    entities: [join(__dirname, '/**/*.entity{.ts,.js}')],
-    synchronize: true,
-    autoLoadEntities: true,
-  }),SharedModule],
+  imports: [
+    UsuariosModule,
+    AuthModule,
+    PerfisModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'db.sqlite',
+      entities: [join(__dirname, '/**/*.entity{.ts,.js}')],
+      synchronize: true,
+      autoLoadEntities: true,
+    }),
+    SharedModule,
+  ],
   controllers: [],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: JwtAuthGuard,
-  },{
-    provide: APP_PIPE,
-    useClass: ValidadorPipe,
-  }]
-  
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidadorPipe,
+    },
+  ],
 })
 export class AppModule {}
