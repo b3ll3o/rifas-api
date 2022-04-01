@@ -1,7 +1,7 @@
-import { Usuario } from "../../usuarios/domain/entities/usuario.entity";
-import { Modulo } from "../domain/entities/modulo.entity";
-import { Perfil } from "../domain/entities/perfil.entity";
-import { Permissao } from "../domain/entities/permissao.entity";
+import { Usuario } from '../../usuarios/domain/entities/usuario.entity';
+import { Modulo } from '../domain/entities/modulo.entity';
+import { Perfil } from '../domain/entities/perfil.entity';
+import { Permissao } from '../domain/entities/permissao.entity';
 
 const NOME = 'nome';
 const SENHA = 'senha';
@@ -23,12 +23,16 @@ export const usuarioFactory = ({ email = EMAIL, senha = SENHA }): Usuario =>
     senha,
   });
 
-  export const permissaoFactory = ({ nome = NOME }): Permissao =>
+export const permissaoFactory = ({ nome = NOME }): Permissao =>
   new Permissao({
     nome,
   });
 
-  export const permissaoCadastradaFActory = ({ nome=NOME, id=1}): Permissao =>  new Permissao({
+export const permissaoCadastradaFActory = ({
+  nome = NOME,
+  id = 1,
+}): Permissao =>
+  new Permissao({
     nome,
-    id
+    id,
   });

@@ -2,7 +2,11 @@ import { TestingModule } from '@nestjs/testing';
 import { Usuario } from '../../../usuarios/domain/entities/usuario.entity';
 import { Connection, getConnection } from 'typeorm';
 import { Modulo } from '../entities/modulo.entity';
-import { ModuloJaCadastradoErro, ModuloNaoEncontradoErro, PermissaoNaoEncontradoErro } from '../erros';
+import {
+  ModuloJaCadastradoErro,
+  ModuloNaoEncontradoErro,
+  PermissaoNaoEncontradoErro,
+} from '../erros';
 import { ModuloService } from './modulo.service';
 import { UsuariosService } from '../../../usuarios/domain/services/usuarios.service';
 import moduleFactory from '../../../perfis/tests/module-test.factory';
@@ -24,7 +28,7 @@ const usuarioFactory = ({ email = EMAIL, senha = SENHA }): Usuario =>
     senha,
   });
 
-  const permissaoFactory = ({ nome = NOME }): Permissao =>
+const permissaoFactory = ({ nome = NOME }): Permissao =>
   new Permissao({
     nome,
   });
@@ -32,7 +36,7 @@ const usuarioFactory = ({ email = EMAIL, senha = SENHA }): Usuario =>
 describe('ModuloService', () => {
   let service: ModuloService;
   let usuarioService: UsuariosService;
-  let permissaoService: PermissaoService
+  let permissaoService: PermissaoService;
   let connection: Connection;
 
   beforeEach(async () => {
@@ -83,12 +87,15 @@ describe('ModuloService', () => {
         usuarioFactory({}),
       );
       const modulo = await service.cadastrar(usuario.id, moduloFactory({}));
-      const permissao = await permissaoService.cadastrar(usuario.id, permissaoFactory({}));
+      const permissao = await permissaoService.cadastrar(
+        usuario.id,
+        permissaoFactory({}),
+      );
       const permissaoModulo = await service.adicionaPermissaoModulo(
         modulo.id,
         permissao.id,
       );
-      expect(permissaoModulo.permissoes).toHaveLength(1)
+      expect(permissaoModulo.permissoes).toHaveLength(1);
       expect(permissaoModulo.permissoes).not.toBeNull();
       expect(permissaoModulo.permissoes).not.toBeUndefined();
     });
@@ -97,13 +104,14 @@ describe('ModuloService', () => {
       const usuario = await usuarioService.cadastraNovoUsuario(
         usuarioFactory({}),
       );
-      
-      const permissao = await permissaoService.cadastrar(usuario.id, permissaoFactory({}));
-      await expect(service.adicionaPermissaoModulo(
-        100,
-        permissao.id,
-      )).rejects.toThrow(ModuloNaoEncontradoErro);
-      
+
+      const permissao = await permissaoService.cadastrar(
+        usuario.id,
+        permissaoFactory({}),
+      );
+      await expect(
+        service.adicionaPermissaoModulo(100, permissao.id),
+      ).rejects.toThrow(ModuloNaoEncontradoErro);
     });
 
     it('deve jogar um erro caso perfil não existir', async () => {
@@ -111,10 +119,9 @@ describe('ModuloService', () => {
         usuarioFactory({}),
       );
       const modulo = await service.cadastrar(usuario.id, moduloFactory({}));
-      await expect(service.adicionaPermissaoModulo(
-        modulo.id,
-        100
-      )).rejects.toThrow(PermissaoNaoEncontradoErro);
+      await expect(
+        service.adicionaPermissaoModulo(modulo.id, 100),
+      ).rejects.toThrow(PermissaoNaoEncontradoErro);
     });
-  })
+  });
 });

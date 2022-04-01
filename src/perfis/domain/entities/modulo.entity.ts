@@ -5,7 +5,6 @@ import { Permissao } from './permissao.entity';
 
 @Entity()
 export class Modulo extends Rastreamento<Modulo> {
-  
   @Column()
   nome: string;
 
@@ -16,14 +15,13 @@ export class Modulo extends Rastreamento<Modulo> {
   permissoes: Permissao[];
 
   adicionaPermissao(permissao: Permissao) {
-    if(!this.permissoes)
-      this.permissoes = []
+    if (!this.permissoes) this.permissoes = [];
 
-    if(permissao.valido() && !this.permissaoJaAdicionada(permissao))
-      this.permissoes.push(permissao)
+    if (permissao.valido() && !this.permissaoJaAdicionada(permissao))
+      this.permissoes.push(permissao);
   }
 
   private permissaoJaAdicionada(permissao: Permissao): boolean {
-    return this.permissoes.find(p => p.id === permissao.id) !== undefined
+    return this.permissoes.find((p) => p.id === permissao.id) !== undefined;
   }
 }

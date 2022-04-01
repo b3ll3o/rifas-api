@@ -1,7 +1,6 @@
 import { TestingModule } from '@nestjs/testing';
 import { Usuario } from '../../../usuarios/domain/entities/usuario.entity';
 import { Connection, getConnection } from 'typeorm';
-import { Perfil } from '../entities/perfil.entity';
 import { PermissaoJaCadastradoErro } from '../erros';
 import { PermissaoService } from './permissao.service';
 import { UsuariosService } from '../../../usuarios/domain/services/usuarios.service';

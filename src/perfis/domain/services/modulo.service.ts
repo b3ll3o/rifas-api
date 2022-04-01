@@ -41,7 +41,10 @@ export class ModuloService {
     return modulo;
   }
 
-  async adicionaPermissaoModulo(moduloId: number, permissaoId: number): Promise<Modulo> {
+  async adicionaPermissaoModulo(
+    moduloId: number,
+    permissaoId: number,
+  ): Promise<Modulo> {
     const modulo = await this.buscaPorId(moduloId);
     const permissao = await this.permissaoService.buscaPorId(permissaoId);
 

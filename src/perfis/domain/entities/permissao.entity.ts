@@ -8,9 +8,9 @@ export class Permissao extends Rastreamento<Permissao> {
   nome: string;
 
   @ManyToOne(() => Modulo, (modulo) => modulo.permissoes)
-  modulo: Modulo
+  modulo: Modulo;
 
   valido(): boolean {
-    return this.id !== undefined && this.id !== null && this.id !== 0
+    return this.id !== undefined && this.id !== null && this.id !== 0;
   }
 }
