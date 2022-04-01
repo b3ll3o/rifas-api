@@ -7,6 +7,6 @@ export class Perfil extends Rastreamento<Perfil> {
   @Column()
   nome: string;
 
-  @OneToMany(() => PerfilModulo, modulo => modulo.perfil)
+  @OneToMany(() => PerfilModulo, (modulo) => modulo.perfil)
   modulos: PerfilModulo[];
 }

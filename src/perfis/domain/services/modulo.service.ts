@@ -33,9 +33,9 @@ export class ModuloService {
 
   async buscaPorId(id: number): Promise<Modulo> {
     const modulo = await this.moduloRepository.findOne(id);
-    if(!modulo) {
+    if (!modulo) {
       throw new ModuloNaoEncontradoErro();
     }
-    return modulo
+    return modulo;
   }
 }

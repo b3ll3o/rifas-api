@@ -35,9 +35,9 @@ export class PerfilService {
 
   async buscaPorId(id: number): Promise<Perfil> {
     const perfil = await this.perfilRepository.findOne(id);
-    if(!perfil) {
+    if (!perfil) {
       throw new PerfilNaoEncontradoErro();
     }
-    return perfil
+    return perfil;
   }
 }
