@@ -2,4 +2,7 @@ export enum MensagemErro {
   MODULO_JA_CADASTRADO = 'Modulo já cadastrado',
   PERFIL_JA_CADASTRADO = 'Perfil já cadastrado',
   PERMISSAO_JA_CADASTRADO = 'Permissão já cadastrada',
+  MODULO_NAO_ENCONTRADO = 'Modulo não encontrado',
+  PERFIL_NAO_ENCONTRADO = 'Perfil não encontrado',
+  PERFIL_MODULO_JA_CADASTRADO = 'Modulo já adicionado ao perfil',
 }

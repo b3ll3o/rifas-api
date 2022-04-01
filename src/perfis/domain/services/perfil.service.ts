@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Perfil } from '../entities/perfil.entity';
 import { PerfilJaCadastradoErro } from '../erros';
 import { RastreamentoService } from '../../../shared/services/rastreamento.service';
+import { PerfilNaoEncontradoErro } from '../erros/perfil/perfil-nao-encontrado.erro';
 
 @Injectable()
 export class PerfilService {
@@ -30,5 +31,13 @@ export class PerfilService {
 
   async perfilJaCadastrado(nome: string): Promise<Perfil | undefined> {
     return this.perfilRepository.findOne({ where: { nome } });
+  }
+
+  async buscaPorId(id: number): Promise<Perfil> {
+    const perfil = await this.perfilRepository.findOne(id);
+    if(!perfil) {
+      throw new PerfilNaoEncontradoErro();
+    }
+    return perfil
   }
 }

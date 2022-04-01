@@ -1,14 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestingModule } from '@nestjs/testing';
 import { Usuario } from '../../../usuarios/domain/entities/usuario.entity';
 import { Connection, getConnection } from 'typeorm';
-import { Modulo } from '../entities/modulo.entity';
 import { Perfil } from '../entities/perfil.entity';
-import { Permissao } from '../entities/permissao.entity';
 import { PermissaoJaCadastradoErro } from '../erros';
 import { PermissaoService } from './permissao.service';
-import { SharedModule } from '../../../shared/shared.module';
 import { UsuariosService } from '../../../usuarios/domain/services/usuarios.service';
+import moduleFactory from '../../../perfis/tests/module-test.factory';
 
 const NOME = 'nome';
 const SENHA = 'senha';
@@ -31,20 +28,7 @@ describe('PermissaoService', () => {
   let connection: Connection;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [PermissaoService],
-      imports: [
-        TypeOrmModule.forRoot({
-          type: 'sqlite',
-          database: ':memory:',
-          entities: [Usuario, Perfil, Modulo, Permissao],
-          synchronize: true,
-          dropSchema: true,
-        }),
-        TypeOrmModule.forFeature([Usuario, Perfil, Modulo, Permissao]),
-        SharedModule,
-      ],
-    }).compile();
+    const module: TestingModule = await moduleFactory();
 
     service = module.get(PermissaoService);
     usuarioService = module.get(UsuariosService);
