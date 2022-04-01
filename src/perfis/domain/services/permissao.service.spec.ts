@@ -6,13 +6,14 @@ import { PermissaoJaCadastradoErro } from '../erros';
 import { PermissaoService } from './permissao.service';
 import { UsuariosService } from '../../../usuarios/domain/services/usuarios.service';
 import moduleFactory from '../../../perfis/tests/module-test.factory';
+import { Permissao } from '../entities/permissao.entity';
 
 const NOME = 'nome';
 const SENHA = 'senha';
 const EMAIL = 'email@email.com';
 
-const permissaoFactory = ({ nome = NOME }): Perfil =>
-  new Perfil({
+const permissaoFactory = ({ nome = NOME }): Permissao =>
+  new Permissao({
     nome,
   });
 

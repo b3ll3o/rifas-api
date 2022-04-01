@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Permissao } from '../entities/permissao.entity';
-import { PermissaoJaCadastradoErro } from '../erros';
+import { PermissaoJaCadastradoErro, PermissaoNaoEncontradoErro } from '../erros';
 import { RastreamentoService } from '../../../shared/services/rastreamento.service';
 
 @Injectable()
@@ -29,5 +29,13 @@ export class PermissaoService {
 
   async permissaoJaCadastrado(nome: string): Promise<Permissao | undefined> {
     return this.permissaoRepository.findOne({ where: { nome } });
+  }
+
+  async buscaPorId(id: number): Promise<Permissao> {
+    const permissao = await this.permissaoRepository.findOne(id);
+    if (!permissao) {
+      throw new PermissaoNaoEncontradoErro();
+    }
+    return permissao;
   }
 }

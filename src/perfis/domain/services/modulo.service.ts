@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Modulo } from '../entities/modulo.entity';
 import { ModuloJaCadastradoErro, ModuloNaoEncontradoErro } from '../erros';
 import { RastreamentoService } from '../../../shared/services/rastreamento.service';
+import { PermissaoService } from './permissao.service';
 
 @Injectable()
 export class ModuloService {
@@ -11,6 +12,7 @@ export class ModuloService {
     @InjectRepository(Modulo)
     private moduloRepository: Repository<Modulo>,
     private readonly rastreamentoService: RastreamentoService<Modulo>,
+    private readonly permissaoService: PermissaoService,
   ) {}
 
   async cadastrar(usuarioId: number, modulo: Modulo): Promise<Modulo> {
@@ -37,5 +39,14 @@ export class ModuloService {
       throw new ModuloNaoEncontradoErro();
     }
     return modulo;
+  }
+
+  async adicionaPermissaoModulo(moduloId: number, permissaoId: number): Promise<Modulo> {
+    const modulo = await this.buscaPorId(moduloId);
+    const permissao = await this.permissaoService.buscaPorId(permissaoId);
+
+    modulo.adicionaPermissao(permissao);
+
+    return this.moduloRepository.save(modulo);
   }
 }
