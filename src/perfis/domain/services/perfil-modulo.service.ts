@@ -5,7 +5,10 @@ import { Repository } from 'typeorm';
 import { Modulo } from '../entities/modulo.entity';
 import { PerfilModulo } from '../entities/perfil-modulo.entity';
 import { Perfil } from '../entities/perfil.entity';
-import { PerfilModuloJaCadastradoErro, PerfilModuloNaoEncontradoErro } from '../erros';
+import {
+  PerfilModuloJaCadastradoErro,
+  PerfilModuloNaoEncontradoErro,
+} from '../erros';
 import { ModuloService } from './modulo.service';
 import { PerfilService } from './perfil.service';
 

@@ -14,18 +14,22 @@ export const perfilFactory = ({ nome = NOME }): Perfil =>
     nome,
   });
 
-export const perfilCadastradoFactory = ({ nome=NOME, id=1 }): Perfil => new Perfil({
-  id, nome
-})
+export const perfilCadastradoFactory = ({ nome = NOME, id = 1 }): Perfil =>
+  new Perfil({
+    id,
+    nome,
+  });
 
 export const moduloFactory = ({ nome = NOME }): Modulo =>
   new Modulo({
     nome,
   });
 
-export const moduloCadastradoFactory = ({nome = NOME, id=1}): Modulo => new Modulo({
-  id, nome
-})
+export const moduloCadastradoFactory = ({ nome = NOME, id = 1 }): Modulo =>
+  new Modulo({
+    id,
+    nome,
+  });
 
 export const usuarioFactory = ({ email = EMAIL, senha = SENHA }): Usuario =>
   new Usuario({
@@ -47,30 +51,40 @@ export const permissaoCadastradaFactory = ({
     id,
   });
 
-  export const perfilModuloFactory = ({modulo = moduloCadastradoFactory({}), perfil = perfilCadastradoFactory({}) }) => new PerfilModulo({
-    modulo,perfil
-      
-  })
-
-  export const perfilModuloCadastradoFactory = ({modulo = moduloCadastradoFactory({}), perfil = perfilCadastradoFactory({}), id=1 }) => new PerfilModulo({
-    modulo,perfil,id
-      
-  })
-
-  export const perfilModuloPermissaoFactory = ({
-    perfilModulo = perfilModuloCadastradoFactory({}),
-    permissao = permissaoCadastradaFactory({})
-  }): PerfilModuloPermissao =>
-  new PerfilModuloPermissao({
-    perfilModulo,
-    permissao
+export const perfilModuloFactory = ({
+  modulo = moduloCadastradoFactory({}),
+  perfil = perfilCadastradoFactory({}),
+}) =>
+  new PerfilModulo({
+    modulo,
+    perfil,
   });
 
-  export const perfilModuloPermissaoCadastradaFactory = ({
-    perfilModulo = perfilModuloCadastradoFactory({}),
-    permissao = permissaoCadastradaFactory({}),
-    id = 1
-  }): PerfilModuloPermissao =>
+export const perfilModuloCadastradoFactory = ({
+  modulo = moduloCadastradoFactory({}),
+  perfil = perfilCadastradoFactory({}),
+  id = 1,
+}) =>
+  new PerfilModulo({
+    modulo,
+    perfil,
+    id,
+  });
+
+export const perfilModuloPermissaoFactory = ({
+  perfilModulo = perfilModuloCadastradoFactory({}),
+  permissao = permissaoCadastradaFactory({}),
+}): PerfilModuloPermissao =>
+  new PerfilModuloPermissao({
+    perfilModulo,
+    permissao,
+  });
+
+export const perfilModuloPermissaoCadastradaFactory = ({
+  perfilModulo = perfilModuloCadastradoFactory({}),
+  permissao = permissaoCadastradaFactory({}),
+  id = 1,
+}): PerfilModuloPermissao =>
   new PerfilModuloPermissao({
     perfilModulo,
     permissao,

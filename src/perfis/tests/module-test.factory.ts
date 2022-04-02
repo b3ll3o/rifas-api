@@ -20,13 +20,21 @@ export default async function moduleFactory(): Promise<TestingModule> {
       ModuloService,
       PermissaoService,
       PerfilModuloService,
-      PerfilModuloPermissaoService
+      PerfilModuloPermissaoService,
     ],
     imports: [
       TypeOrmModule.forRoot({
         type: 'sqlite',
         database: ':memory:',
-        entities: [Usuario, Perfil, Modulo, Permissao, PerfilModulo, PerfilModuloPermissao, PerfilModuloPermissao],
+        entities: [
+          Usuario,
+          Perfil,
+          Modulo,
+          Permissao,
+          PerfilModulo,
+          PerfilModuloPermissao,
+          PerfilModuloPermissao,
+        ],
         synchronize: true,
         dropSchema: true,
       }),
@@ -35,7 +43,9 @@ export default async function moduleFactory(): Promise<TestingModule> {
         Perfil,
         Modulo,
         Permissao,
-        PerfilModulo,PerfilModuloPermissao, PerfilModuloPermissao
+        PerfilModulo,
+        PerfilModuloPermissao,
+        PerfilModuloPermissao,
       ]),
       SharedModule,
     ],

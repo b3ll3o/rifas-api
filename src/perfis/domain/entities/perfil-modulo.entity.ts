@@ -12,6 +12,9 @@ export class PerfilModulo extends Rastreamento<PerfilModulo> {
   @ManyToOne(() => Modulo, (modulo) => modulo.perfis)
   modulo: Modulo;
 
-  @OneToMany(() => PerfilModuloPermissao, (perfilModuloPermissao) => perfilModuloPermissao.perfilModulo)
+  @OneToMany(
+    () => PerfilModuloPermissao,
+    (perfilModuloPermissao) => perfilModuloPermissao.perfilModulo,
+  )
   permissoes: PerfilModuloPermissao[];
 }
