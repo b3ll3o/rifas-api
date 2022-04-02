@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Modulo } from '../entities/modulo.entity';
 import { PerfilModulo } from '../entities/perfil-modulo.entity';
 import { Perfil } from '../entities/perfil.entity';
-import { PerfilModuloJaCadastradoErro } from '../erros';
+import { PerfilModuloJaCadastradoErro, PerfilModuloNaoEncontradoErro } from '../erros';
 import { ModuloService } from './modulo.service';
 import { PerfilService } from './perfil.service';
 
@@ -60,6 +60,14 @@ export class PerfilModuloService {
       },
     });
 
+    return perfilModulo;
+  }
+
+  async buscaPorId(id: number): Promise<PerfilModulo> {
+    const perfilModulo = await this.perfilModuloRepository.findOne(id);
+    if (!perfilModulo) {
+      throw new PerfilModuloNaoEncontradoErro();
+    }
     return perfilModulo;
   }
 }

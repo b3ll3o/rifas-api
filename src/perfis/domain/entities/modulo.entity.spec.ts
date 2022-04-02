@@ -1,6 +1,6 @@
 import {
   moduloFactory,
-  permissaoCadastradaFActory,
+  permissaoCadastradaFactory,
   permissaoFactory,
 } from '../../tests/construtores-entidade';
 
@@ -8,7 +8,7 @@ describe('Modulo', () => {
   describe('adicionaPermissao', () => {
     it('deve adicionar uma permissao ao modulo', () => {
       const modulo = moduloFactory({});
-      const permissao = permissaoCadastradaFActory({});
+      const permissao = permissaoCadastradaFactory({});
 
       modulo.adicionaPermissao(permissao);
 
@@ -17,7 +17,7 @@ describe('Modulo', () => {
 
     it('não deve adicionar duas vezes a mesma permissao ao modulo', () => {
       const modulo = moduloFactory({});
-      const permissao = permissaoCadastradaFActory({});
+      const permissao = permissaoCadastradaFactory({});
 
       modulo.adicionaPermissao(permissao);
       modulo.adicionaPermissao(permissao);
