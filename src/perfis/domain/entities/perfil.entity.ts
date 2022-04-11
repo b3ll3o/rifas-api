@@ -8,5 +8,5 @@ export class Perfil extends Rastreamento<Perfil> {
   nome: string;
 
   @OneToMany(() => PerfilModulo, (modulo) => modulo.perfil)
-  modulos: PerfilModulo[];
+  modulos?: PerfilModulo[];
 }

@@ -7,7 +7,7 @@ import { Permissao } from '../domain/entities/permissao.entity';
 
 const NOME = 'nome';
 const SENHA = 'senha';
-const EMAIL = 'email@email.com';
+export const EMAIL = 'email@email.com';
 
 export const perfilFactory = ({ nome = NOME }): Perfil =>
   new Perfil({
