@@ -6,6 +6,7 @@ import { PerfilApplicationService } from './application/services/perfil-applicat
 import { PermissaoApplicationService } from './application/services/permissao-application.service';
 import { ModulosController } from './controller/modulos.controller';
 import { PerfisController } from './controller/perfis.controller';
+import { PermissoesController } from './controller/permissoes.controller';
 import { Modulo } from './domain/entities/modulo.entity';
 import { PerfilModuloPermissao } from './domain/entities/perfil-modulo-permissao.entity';
 import { PerfilModulo } from './domain/entities/perfil-modulo.entity';
@@ -38,6 +39,6 @@ import { PermissaoService } from './domain/services/permissao.service';
     ]),
     SharedModule,
   ],
-  controllers: [PerfisController, ModulosController],
+  controllers: [PerfisController, ModulosController, PermissoesController],
 })
 export class PerfisModule {}

@@ -15,7 +15,7 @@ import { EMAIL, usuarioFactory } from '../src/perfis/tests/construtores-entidade
 
 const BASE_URL_PERFIS = '/perfis';
 const BASE_URL_MODULOS = '/modulos';
-
+const BASE_URL_PERMISSOES = '/permissoes';
 
 describe('perfis', () => {
   let app: INestApplication;
@@ -59,7 +59,7 @@ describe('perfis', () => {
   describe('perfis', () => {
     describe('cadastrar', () => {
 
-      it('não deve cadastrar um novo perfil', async () => {
+      it('não deve cadastrar um novo perfil', () => {
 
         return request(app.getHttpServer())
           .post(BASE_URL_PERFIS)
@@ -85,7 +85,7 @@ describe('perfis', () => {
           .expect(201)
       });
 
-      it('não deve cadastrar dois perfis com o mesmo nome', async () => {
+      it('não deve cadastrar dois perfis com o mesmo nome', () => {
 
         return request(app.getHttpServer())
           .post(BASE_URL_PERFIS)
@@ -101,7 +101,7 @@ describe('perfis', () => {
   describe('modulos', () => {
 
     describe('cadastrar', () => {
-      it('não deve cadastrar um novo modulo', async () => {
+      it('não deve cadastrar um novo modulo', () => {
 
         return request(app.getHttpServer())
           .post(BASE_URL_MODULOS)
@@ -112,7 +112,7 @@ describe('perfis', () => {
           .expect(404)
       });
 
-      it('deve cadastrar um novo modulo', async () => {
+      it('deve cadastrar um novo modulo', () => {
 
         return request(app.getHttpServer())
           .post(BASE_URL_MODULOS)
@@ -123,7 +123,7 @@ describe('perfis', () => {
           .expect(201)
       });
 
-      it('não deve cadastrar dois modulos com o mesmo nome', async () => {
+      it('não deve cadastrar dois modulos com o mesmo nome', () => {
 
         return request(app.getHttpServer())
           .post(BASE_URL_MODULOS)
@@ -135,4 +135,42 @@ describe('perfis', () => {
       });
     })
   })
+
+  describe('permissoes', () => {
+    describe('cadastrar', () => {
+
+      it('não deve cadastrar uma nova permissão', () => {
+
+        return request(app.getHttpServer())
+          .post(BASE_URL_PERMISSOES)
+          .send({
+            nome: 'nome',
+            usuarioId: 100,
+          })
+          .expect(404)
+      });
+
+      it('deve cadastrar um novo perfil', () => {
+
+        return request(app.getHttpServer())
+          .post(BASE_URL_PERMISSOES)
+          .send({
+            nome: 'nome',
+            usuarioId:1,
+          })
+          .expect(201)
+      });
+
+      it('não deve cadastrar dois perfis com o mesmo nome', async () => {
+
+        return request(app.getHttpServer())
+          .post(BASE_URL_PERMISSOES)
+          .send({
+            nome: 'nome',
+            usuarioId: 1,
+          })
+          .expect(400)
+      });
+    });
+  });
 });
