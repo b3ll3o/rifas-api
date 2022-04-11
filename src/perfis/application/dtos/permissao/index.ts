@@ -1,2 +1,2 @@
-export * from './nova-permissao.dto'
-export * from './permissao-cadastrada.dto'
+export * from './nova-permissao.dto';
+export * from './permissao-cadastrada.dto';

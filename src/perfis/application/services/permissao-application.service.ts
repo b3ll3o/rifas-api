@@ -8,9 +8,9 @@ export class PermissaoApplicationService {
   constructor(private readonly permissaoService: PermissaoService) {}
 
   async cadastrar(
+    usuarioId: number,
     novaPermissaoDto: NovaPermissaoDto,
   ): Promise<PermissaoCadastradaDto> {
-    const { usuarioId } = novaPermissaoDto;
     const permissaoCadastrada = await this.permissaoService.cadastrar(
       usuarioId,
       new Permissao(novaPermissaoDto),

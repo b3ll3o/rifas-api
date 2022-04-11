@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request } from '@nestjs/common';
 import { ModuloCadastradoDto, NovoModuloDto } from '../application/dtos';
 import { ModuloApplicationService } from '../application/services/modulo-application.service';
 
@@ -10,8 +10,9 @@ export class ModulosController {
 
   @Post()
   async cadastrar(
+    @Request() req,
     @Body() novoModuloDto: NovoModuloDto,
   ): Promise<ModuloCadastradoDto> {
-    return this.moduloApplicationService.cadastrar(novoModuloDto);
+    return this.moduloApplicationService.cadastrar(req.user.id, novoModuloDto);
   }
 }

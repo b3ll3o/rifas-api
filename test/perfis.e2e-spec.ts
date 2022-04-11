@@ -11,19 +11,25 @@ import { PerfisModule } from '../src/perfis/perfis.module';
 import { Usuario } from '../src/usuarios/domain/entities/usuario.entity';
 import * as request from 'supertest';
 import { UsuariosService } from '../src/usuarios/domain/services/usuarios.service';
-import { EMAIL, usuarioFactory } from '../src/perfis/tests/construtores-entidade';
+import { usuarioFactory } from '../src/perfis/tests/construtores-entidade';
+import { JwtAuthGuard } from '../src/auth/jwt/jwt-auth.guard';
+import { Reflector } from '@nestjs/core';
+import { AuthModule } from '../src/auth/auth.module';
 
 const BASE_URL_PERFIS = '/perfis';
 const BASE_URL_MODULOS = '/modulos';
 const BASE_URL_PERMISSOES = '/permissoes';
+const BASE_URL_AUTH = '/auth';
 
 describe('perfis', () => {
   let app: INestApplication;
   let usuariosService: UsuariosService;
+  let jwt_token: string;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        AuthModule,
         PerfisModule,
         TypeOrmModule.forRoot({
           type: 'sqlite',
@@ -52,124 +58,89 @@ describe('perfis', () => {
     usuariosService = module.get(UsuariosService);
 
     app = module.createNestApplication();
+    const reflector = app.get(Reflector);
     app.useGlobalPipes(new ValidadorPipe());
+    app.useGlobalGuards(new JwtAuthGuard(reflector));
     await app.init();
   });
 
   describe('perfis', () => {
     describe('cadastrar', () => {
+      it('não deve cadastrar um novo perfil', async () => {
+        await usuariosService.cadastraNovoUsuario(usuarioFactory({}));
 
-      it('não deve cadastrar um novo perfil', () => {
+        const res = await request(app.getHttpServer())
+          .post(`${BASE_URL_AUTH}/login`)
+          .send(usuarioFactory({}));
+
+        jwt_token = res.body.access_token;
 
         return request(app.getHttpServer())
           .post(BASE_URL_PERFIS)
+          .set('Authorization', `Bearer ${jwt_token}`)
           .send({
             nome: 'nome',
-            usuarioId: 100,
           })
-          .expect(404)
+          .expect(201);
       });
 
-      it('deve cadastrar um novo perfil', async () => {
-
-        const usuario = await usuariosService.cadastraNovoUsuario(
-          usuarioFactory({})
-        );
-
+      it('deve cadastrar um novo perfil', () => {
         return request(app.getHttpServer())
           .post(BASE_URL_PERFIS)
-          .send({
-            nome: 'nome',
-            usuarioId: usuario.id,
-          })
-          .expect(201)
-      });
-
-      it('não deve cadastrar dois perfis com o mesmo nome', () => {
-
-        return request(app.getHttpServer())
-          .post(BASE_URL_PERFIS)
+          .set('Authorization', `Bearer ${jwt_token}`)
           .send({
             nome: 'nome',
             usuarioId: 1,
           })
-          .expect(400)
+          .expect(400);
       });
     });
   });
 
   describe('modulos', () => {
-
     describe('cadastrar', () => {
-      it('não deve cadastrar um novo modulo', () => {
-
-        return request(app.getHttpServer())
-          .post(BASE_URL_MODULOS)
-          .send({
-            nome: 'nome',
-            usuarioId: 100,
-          })
-          .expect(404)
-      });
-
       it('deve cadastrar um novo modulo', () => {
-
         return request(app.getHttpServer())
           .post(BASE_URL_MODULOS)
+          .set('Authorization', `Bearer ${jwt_token}`)
           .send({
             nome: 'nome',
-            usuarioId: 1,
           })
-          .expect(201)
+          .expect(201);
       });
 
       it('não deve cadastrar dois modulos com o mesmo nome', () => {
-
         return request(app.getHttpServer())
           .post(BASE_URL_MODULOS)
+          .set('Authorization', `Bearer ${jwt_token}`)
           .send({
             nome: 'nome',
-            usuarioId: 1,
           })
-          .expect(400)
+          .expect(400);
       });
-    })
-  })
+    });
+  });
 
   describe('permissoes', () => {
     describe('cadastrar', () => {
-
-      it('não deve cadastrar uma nova permissão', () => {
-
+      it('deve cadastrar uma nova permissão', () => {
         return request(app.getHttpServer())
           .post(BASE_URL_PERMISSOES)
+          .set('Authorization', `Bearer ${jwt_token}`)
           .send({
             nome: 'nome',
-            usuarioId: 100,
           })
-          .expect(404)
+          .expect(201);
       });
 
-      it('deve cadastrar um novo perfil', () => {
-
+      it('não deve cadastrar duas permissões com o mesmo nome', () => {
         return request(app.getHttpServer())
           .post(BASE_URL_PERMISSOES)
+          .set('Authorization', `Bearer ${jwt_token}`)
           .send({
             nome: 'nome',
-            usuarioId:1,
           })
-          .expect(201)
-      });
-
-      it('não deve cadastrar dois perfis com o mesmo nome', async () => {
-
-        return request(app.getHttpServer())
-          .post(BASE_URL_PERMISSOES)
-          .send({
-            nome: 'nome',
-            usuarioId: 1,
-          })
-          .expect(400)
+          .expect(400);
       });
     });
   });

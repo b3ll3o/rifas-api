@@ -1,5 +1,3 @@
-import { Entidade } from "../../../../shared/entidade";
+import { Entidade } from '../../../../shared/entidade';
 
-export class PermissaoCadastradaDto extends Entidade<PermissaoCadastradaDto> {
-  
-}
+export class PermissaoCadastradaDto extends Entidade<PermissaoCadastradaDto> {}

@@ -8,9 +8,9 @@ export class ModuloApplicationService {
   constructor(private readonly moduloService: ModuloService) {}
 
   async cadastrar(
+    usuarioId: number,
     novoModulolDto: NovoModuloDto,
   ): Promise<ModuloCadastradoDto> {
-    const { usuarioId } = novoModulolDto;
     const moduloCadastrado = await this.moduloService.cadastrar(
       usuarioId,
       new Modulo(novoModulolDto),

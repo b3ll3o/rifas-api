@@ -1,8 +1,6 @@
-import { IsNotEmpty } from "class-validator"
+import { IsNotEmpty } from 'class-validator';
 
 export class NovaPermissaoDto {
   @IsNotEmpty()
-  nome: string
-  @IsNotEmpty()
-  usuarioId: number
+  nome: string;
 }

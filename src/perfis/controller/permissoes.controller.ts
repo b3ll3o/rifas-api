@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request } from '@nestjs/common';
 import { NovaPermissaoDto, PermissaoCadastradaDto } from '../application/dtos';
 import { PermissaoApplicationService } from '../application/services/permissao-application.service';
 
@@ -10,8 +10,12 @@ export class PermissoesController {
 
   @Post()
   async cadastrar(
+    @Request() req,
     @Body() novaPermissaoDto: NovaPermissaoDto,
   ): Promise<PermissaoCadastradaDto> {
-    return this.permissaoApplicationService.cadastrar(novaPermissaoDto);
+    return this.permissaoApplicationService.cadastrar(
+      req.user.id,
+      novaPermissaoDto,
+    );
   }
 }

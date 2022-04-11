@@ -1,2 +1,2 @@
-export * from './modulo-cadastrado.dto'
-export * from './novo-modulo.dto'
+export * from './modulo-cadastrado.dto';
+export * from './novo-modulo.dto';
