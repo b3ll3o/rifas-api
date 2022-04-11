@@ -14,6 +14,8 @@ import { UsuariosService } from '../src/usuarios/domain/services/usuarios.servic
 import { EMAIL, usuarioFactory } from '../src/perfis/tests/construtores-entidade';
 
 const BASE_URL_PERFIS = '/perfis';
+const BASE_URL_MODULOS = '/modulos';
+
 
 describe('perfis', () => {
   let app: INestApplication;
@@ -95,4 +97,42 @@ describe('perfis', () => {
       });
     });
   });
+
+  describe('modulos', () => {
+
+    describe('cadastrar', () => {
+      it('não deve cadastrar um novo modulo', async () => {
+
+        return request(app.getHttpServer())
+          .post(BASE_URL_MODULOS)
+          .send({
+            nome: 'nome',
+            usuarioId: 100,
+          })
+          .expect(404)
+      });
+
+      it('deve cadastrar um novo modulo', async () => {
+
+        return request(app.getHttpServer())
+          .post(BASE_URL_MODULOS)
+          .send({
+            nome: 'nome',
+            usuarioId: 1,
+          })
+          .expect(201)
+      });
+
+      it('não deve cadastrar dois modulos com o mesmo nome', async () => {
+
+        return request(app.getHttpServer())
+          .post(BASE_URL_MODULOS)
+          .send({
+            nome: 'nome',
+            usuarioId: 1,
+          })
+          .expect(400)
+      });
+    })
+  })
 });

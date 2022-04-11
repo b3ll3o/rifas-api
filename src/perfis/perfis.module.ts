@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ModuloApplicationService } from './application/services/modulo-application.service';
 import { PerfilApplicationService } from './application/services/perfil-application.service';
 import { PermissaoApplicationService } from './application/services/permissao-application.service';
+import { ModulosController } from './controller/modulos.controller';
 import { PerfisController } from './controller/perfis.controller';
 import { Modulo } from './domain/entities/modulo.entity';
 import { PerfilModuloPermissao } from './domain/entities/perfil-modulo-permissao.entity';
@@ -37,6 +38,6 @@ import { PermissaoService } from './domain/services/permissao.service';
     ]),
     SharedModule,
   ],
-  controllers: [PerfisController],
+  controllers: [PerfisController, ModulosController],
 })
 export class PerfisModule {}
